@@ -8,7 +8,13 @@ const vm = require('node:vm');
 
 const root = resolve(__dirname, '..');
 
-function makeHarness() {
+function makeHarness({
+  chapters = [
+    { title: 'Intro', start: 0 },
+    { title: 'Episode', start: 90 },
+  ],
+  preferenceValues = { auto_skip_title_intros: true },
+} = {}) {
   const handlers = new Map();
   const timers = [];
   const seeks = [];
@@ -23,10 +29,7 @@ function makeHarness() {
       core: {
         status: { paused: false },
         window: { loaded: false },
-        getChapters: () => [
-          { title: 'Intro', start: 0 },
-          { title: 'Episode', start: 90 },
-        ],
+        getChapters: () => chapters,
         seekTo: (position) => seeks.push(position),
       },
       event: { on: (name, callback) => handlers.set(name, callback) },
@@ -46,7 +49,7 @@ function makeHarness() {
         show: () => {},
       },
       preferences: {
-        get: (key) => (key === 'auto_skip_title_intros' ? true : undefined),
+        get: (key) => preferenceValues[key],
       },
       input: { onKeyDown: () => {}, offKeyDown: () => {} },
       console: { log: () => {} },
@@ -88,6 +91,24 @@ async function finishDetection(harness) {
   delayTimer.callback();
   for (let index = 0; index < 20; index += 1) await Promise.resolve();
 }
+
+test('chapter timing fallback participates in Auto-Skip for network streams', async () => {
+  const harness = makeHarness({
+    chapters: [
+      { title: 'Chapter 1', start: 0 },
+      { title: 'Chapter 2', start: 90 },
+    ],
+    preferenceValues: {
+      auto_skip_title_intros: true,
+      detect_chapter_timing: true,
+    },
+  });
+  harness.handlers.get('iina.plugin-overlay-loaded')();
+  harness.handlers.get('mpv.file-loaded')();
+  await finishDetection(harness);
+
+  assert.deepEqual(harness.seeks, [89]);
+});
 
 test('Auto-Skip resets and runs for every CineLark replacement episode', async () => {
   const harness = makeHarness();

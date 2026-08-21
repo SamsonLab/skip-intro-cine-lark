@@ -14,6 +14,7 @@ const {
   SECTION_KIND_RECAP,
   SECTION_KIND_SECTION,
   SECTION_SOURCE_AUDIO_FINGERPRINT,
+  SECTION_SOURCE_TIMING,
   SECTION_SOURCE_TITLE,
   getLocalFilePath,
   getChapterStart,
@@ -203,11 +204,11 @@ function isAudioMatchEpisodeParsingEnabled() {
 }
 
 function isChapterTimingDetectionEnabled() {
-  return getBooleanPreference(PREF_DETECT_CHAPTER_TIMING, false);
+  return getBooleanPreference(PREF_DETECT_CHAPTER_TIMING, true);
 }
 
 function isTitleIntroAutoSkipEnabled() {
-  return getBooleanPreference(PREF_AUTO_SKIP_TITLE_INTROS, false);
+  return getBooleanPreference(PREF_AUTO_SKIP_TITLE_INTROS, true);
 }
 
 function isTitleRecapAutoSkipEnabled() {
@@ -407,7 +408,7 @@ function resolveAutoSkipForSection(sectionGroup, settings) {
       continue;
     }
     if (
-      section.source === SECTION_SOURCE_TITLE &&
+      (section.source === SECTION_SOURCE_TITLE || section.source === SECTION_SOURCE_TIMING) &&
       getAutoSkipSettingForTitleKind(section.kind, settings)
     ) {
       return true;

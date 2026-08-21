@@ -1,6 +1,6 @@
 {
-  "name": "@samsonlab/skip-intro-cine-lark",
-  "version": "1.0.0",
+  "name": "@samsonlab/cinelark-skip-intro",
+  "version": "1.0.1",
   "private": true,
   "description": "CineLark-compatible Skip Intro plugin for IINA",
   "scripts": {

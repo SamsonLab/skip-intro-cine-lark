@@ -1,7 +1,7 @@
 {
-  "name": "Skip Intro for CineLark",
+  "name": "CineLark-Skip-Intro",
   "identifier": "com.samsonlab.skip-intro-cine-lark",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "ghRepo": "SamsonLab/skip-intro-cine-lark",
   "ghVersion": 1,
   "author": {
@@ -15,10 +15,10 @@
     "detect_intros": true,
     "detect_audio_matching": false,
     "audio_match_parse_episode_numbers": true,
-    "detect_chapter_timing": false,
+    "detect_chapter_timing": true,
     "detect_recaps": false,
     "detect_credits": true,
-    "auto_skip_title_intros": false,
+    "auto_skip_title_intros": true,
     "auto_skip_title_recaps": false,
     "auto_skip_title_credits": false,
     "auto_skip_audio_matching": false,

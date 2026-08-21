@@ -1,4 +1,4 @@
-<h1 align="center">Skip Intro for CineLark</h1>
+<h1 align="center">CineLark-Skip-Intro</h1>
 
 <p align="center">
 Intro, recap, and credits skipping for <a href="https://github.com/SamsonLab/cinelark">CineLark</a>-managed <a href="https://iina.io/">IINA</a> streams.
@@ -38,7 +38,7 @@ This is a CineLark-focused fork of [pparanoiidd/iina-skip-intro](https://github.
 4. Paste `SamsonLab/skip-intro-cine-lark` and install.
    > **Note:** See [Permissions](#permissions) for why the plugin asks for each permission.
 5. Restart IINA.
-6. Open `Settings -> Plugins -> Skip Intro for CineLark -> Preferences` to choose detection methods and skip behavior.
+6. Open `Settings -> Plugins -> CineLark-Skip-Intro -> Preferences` to choose detection methods and skip behavior.
 
 ### Optional: Enable Audio Fingerprint Matching
 
@@ -65,7 +65,7 @@ brew install node ffmpeg
 
 ## Detection Methods
 
-Detection methods run in this order and stop after the first match. By default, only chapter title detection is enabled. You can enable or disable any method in Preferences.
+Detection methods run in this order and stop after the first match. This CineLark fork enables chapter title detection, chapter timing fallback, and Intro Auto-Skip by default. You can change each behavior in Preferences.
 
 ### 1. Chapter Title Detection
 
@@ -95,7 +95,7 @@ When enabled, audio matching looks for intro-length shared audio between 20 and 
 
 Uses chapter structure as a lower-confidence fallback. It looks for an early chapter with intro-like duration followed by a much longer chapter, then scores candidates by position, duration and next-chapter dominance.
 
-This method can misfire, so it is disabled by default.
+This lower-confidence fallback is enabled by default for CineLark streams whose chapters use generic names. Disable it in Preferences if a specific title has unsuitable chapter boundaries.
 
 ## Scan Limits
 
@@ -112,7 +112,7 @@ If the plugin is not working as expected, check IINA's logs:
 3. Enable `Logging` and restart IINA.
 4. Play the problem video so the plugin can run and write log entries.
 5. Open logs with `Ctrl + Cmd + L`.
-6. Set `Subsystem` to `Skip Intro for CineLark`.
+6. Set `Subsystem` to `CineLark-Skip-Intro`.
 
 Useful things to look for:
 
