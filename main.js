@@ -17,7 +17,8 @@ const {
   SECTION_SOURCE_TITLE,
   getLocalFilePath,
   getChapterStart,
-  isVideoFilePath,
+  isNetworkMediaPath,
+  isSupportedMediaPath,
   parseSeasonEpisode,
 } = require('./detectors/shared.js');
 const { detectSectionsFromChapterTitles } = require('./detectors/chapter-title.js');
@@ -535,9 +536,9 @@ async function getDetectionContext(runId) {
   if (runId !== detectionRunId) return null;
 
   const currentPath = getCurrentMediaPath();
-  if (!isVideoFilePath(currentPath)) {
+  if (!isSupportedMediaPath(currentPath)) {
     return {
-      skipMessage: 'Skipping intro detection: current file is not a supported video file',
+      skipMessage: 'Skipping intro detection: current media is not supported',
     };
   }
 
@@ -562,6 +563,7 @@ async function getDetectionContext(runId) {
     chapters: chapters,
     duration: duration,
     mediaPath: currentPath,
+    isNetworkMedia: isNetworkMediaPath(currentPath),
   };
 }
 
@@ -661,11 +663,17 @@ async function detectCurrentSections() {
     return;
   }
 
-  const options = getDetectionOptionsForDuration(initialOptions, context.duration);
+  let options = getDetectionOptionsForDuration(initialOptions, context.duration);
+  if (context.isNetworkMedia && options.detectAudioMatching) {
+    options = Object.assign({}, options, { detectAudioMatching: false });
+    log('Audio fingerprint detection is unavailable for network streams');
+  }
   if (!hasEnabledDetectionMethod(options)) {
     finishDetection(
       [],
-      'Skipping intro detection: movie-length media only detects credits from chapter titles',
+      context.isNetworkMedia
+        ? 'Skipping intro detection: network streams require chapter detection'
+        : 'Skipping intro detection: movie-length media only detects credits from chapter titles',
       context,
     );
     return;

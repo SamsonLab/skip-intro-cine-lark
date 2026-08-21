@@ -1,13 +1,13 @@
 {
-  "name": "Skip Intro",
-  "identifier": "com.pparanoiidd.skipintro",
+  "name": "Skip Intro for CineLark",
+  "identifier": "com.samsonlab.skip-intro-cine-lark",
   "version": "1.0.0",
-  "ghRepo": "pparanoiidd/iina-skip-intro",
+  "ghRepo": "SamsonLab/skip-intro-cine-lark",
   "ghVersion": 1,
   "author": {
-    "name": "pparanoiidd"
+    "name": "SamsonLab"
   },
-  "description": "Skip-intro overlay for IINA.",
+  "description": "Intro, recap, and credits skipping for CineLark-managed IINA streams.",
   "entry": "main.js",
   "preferencesPage": "preferences.html",
   "preferenceDefaults": {

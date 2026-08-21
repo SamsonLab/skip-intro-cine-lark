@@ -1,7 +1,7 @@
-<h1 align="center">Skip Intro plugin for IINA</h1>
+<h1 align="center">Skip Intro for CineLark</h1>
 
 <p align="center">
-Skip Intro adds intro, recap and credits skipping to <a href="https://iina.io/">IINA</a>, the modern media player for macOS.
+Intro, recap, and credits skipping for <a href="https://github.com/SamsonLab/cinelark">CineLark</a>-managed <a href="https://iina.io/">IINA</a> streams.
 </p>
 
 <p align="center">
@@ -14,7 +14,7 @@ Skip Intro adds intro, recap and credits skipping to <a href="https://iina.io/">
 
 ---
 
-This plugin gives people who watch shows and movies locally a streaming-style way to skip intros and other sections. It detects sections through three different methods: chapter titles, audio fingerprint analysis, or chapter timings, then either shows a skip pop-up or auto-skips based on your preferences.
+This is a CineLark-focused fork of [pparanoiidd/iina-skip-intro](https://github.com/pparanoiidd/iina-skip-intro). It keeps the original local-file experience and adds support for CineLark's opaque, tokenized HTTPS playback URLs. Chapter title and chapter timing detection work for those streams, and each replacement episode resets detection and Auto-Skip state in the reused IINA player.
 
 ## Features
 
@@ -33,11 +33,12 @@ This plugin gives people who watch shows and movies locally a streaming-style wa
 ### Install the Plugin
 
 1. Install and open [IINA](https://iina.io/), then go to `Settings -> Plugins` from the menu bar.
-2. Choose `Install from GitHub...`.
-3. Paste `pparanoiidd/iina-skip-intro` and install.
+2. Uninstall or disable the original **Skip Intro** plugin to avoid duplicate overlays and seeks.
+3. Choose `Install from GitHub...`.
+4. Paste `SamsonLab/skip-intro-cine-lark` and install.
    > **Note:** See [Permissions](#permissions) for why the plugin asks for each permission.
-4. Restart IINA.
-5. Open `Settings -> Plugins -> Skip Intro -> Preferences` to choose detection methods and skip behavior.
+5. Restart IINA.
+6. Open `Settings -> Plugins -> Skip Intro for CineLark -> Preferences` to choose detection methods and skip behavior.
 
 ### Optional: Enable Audio Fingerprint Matching
 
@@ -76,7 +77,9 @@ For chapter title matches, intros, recaps and credits can each be set to Off, Pr
 
 ### 2. Audio Fingerprint Detection
 
-Compares the current episode with nearby playlist episodes and looks for shared audio that appears in the same broad region. This is intended for shows where episodes share the same intro but do not have helpful chapter titles. It requires at least 2 episodes.
+Audio fingerprint detection is intentionally disabled for CineLark network streams because they contain one opaque URL at a time and do not expose neighboring local files. It remains available for local playback.
+
+For local files, it compares the current episode with nearby playlist episodes and looks for shared audio that appears in the same broad region. This is intended for shows where episodes share the same intro but do not have helpful chapter titles. It requires at least 2 episodes.
 
 The matcher:
 
@@ -96,7 +99,7 @@ This method can misfire, so it is disabled by default.
 
 ## Scan Limits
 
-- Detection only runs for video files that are at least 10 minutes long.
+- Detection runs for supported local video files and HTTP/HTTPS media streams that are at least 10 minutes long.
 - Videos longer than 90 minutes are treated as movie-length media. For those files, the plugin only allows credit detection from chapter titles.
 - Audio fingerprint matching analyzes the early portion of an episode and accepts shared intro candidates from 20 to 150 seconds long.
 
@@ -109,7 +112,7 @@ If the plugin is not working as expected, check IINA's logs:
 3. Enable `Logging` and restart IINA.
 4. Play the problem video so the plugin can run and write log entries.
 5. Open logs with `Ctrl + Cmd + L`.
-6. Set `Subsystem` to `Skip Intro`.
+6. Set `Subsystem` to `Skip Intro for CineLark`.
 
 Useful things to look for:
 

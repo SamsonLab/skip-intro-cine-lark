@@ -153,6 +153,14 @@ function isVideoFilePath(path) {
   return !!(extensionMatch && VIDEO_FILE_EXTENSION_MAP[extensionMatch[1].toLowerCase()]);
 }
 
+function isNetworkMediaPath(path) {
+  return typeof path === 'string' && /^https?:\/\//i.test(path);
+}
+
+function isSupportedMediaPath(path) {
+  return isVideoFilePath(path) || isNetworkMediaPath(path);
+}
+
 function getFilenameStem(path) {
   return getFilename(path).replace(/\.[^.]+$/, '');
 }
@@ -451,5 +459,7 @@ module.exports = {
   isSectionStartInRange: isSectionStartInRange,
   isSpecificIntroChapterTitle: isSpecificIntroChapterTitle,
   isVideoFilePath: isVideoFilePath,
+  isNetworkMediaPath: isNetworkMediaPath,
+  isSupportedMediaPath: isSupportedMediaPath,
   normalizeChapterTitle: normalizeChapterTitle,
 };
